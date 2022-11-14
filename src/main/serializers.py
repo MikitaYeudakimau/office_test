@@ -70,4 +70,10 @@ class MyUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.MyUser
-        fields = ['username', 'email', 'reservation_user']
+        fields = ['username', 'email','is_staff', 'reservation_user']
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['reservation_amount'] = instance.reservation_user.count()
+
+        return ret
