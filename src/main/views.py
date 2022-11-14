@@ -1,10 +1,9 @@
 import datetime
 
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, permissions, generics, mixins
-from rest_framework.filters import SearchFilter, OrderingFilter
-
 from main import models, serializers
+from rest_framework import generics, mixins, permissions, viewsets
+from rest_framework.filters import OrderingFilter, SearchFilter
 
 
 class OfficeViewSet(viewsets.ModelViewSet):
@@ -27,7 +26,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
     ordering_fields = ['date']
 
     def get_queryset(self):
-        if self.request.user.is_staff == False:
+        if self.request.user.is_staff is False:
             return models.Reservation.objects.filter(user=self.request.user)
         else:
             return models.Reservation.objects.all()
@@ -48,7 +47,7 @@ class RestViewSet(mixins.ListModelMixin,
     ordering_fields = ['date', 'rest']
 
     def get_queryset(self):
-        if self.request.user.is_staff == False:
+        if self.request.user.is_staff is False:
             return models.Rest.objects.filter(date__gte=datetime.date.today())
         else:
             return models.Rest.objects.all()
@@ -59,5 +58,5 @@ class MyUserApiView(generics.ListAPIView):
     serializer_class = serializers.MyUserSerializer
     permission_classes = (permissions.IsAdminUser,)
     filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ['username',]
-    ordering_fields = ['username',]
+    search_fields = ['username', ]
+    ordering_fields = ['username', ]

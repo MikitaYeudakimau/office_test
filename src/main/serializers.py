@@ -1,8 +1,6 @@
-from rest_framework import serializers, status
-from rest_framework.response import Response
-from rest_framework.validators import UniqueTogetherValidator
-
 from main import models
+from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 
 
 class OfficeSerializer(serializers.ModelSerializer):
@@ -25,7 +23,6 @@ class RoomSerializer(serializers.ModelSerializer):
 
 
 class ReservationSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.Reservation
         fields = ['id', 'room', 'date', 'user', 'reserved_at']
@@ -70,7 +67,7 @@ class MyUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.MyUser
-        fields = ['username', 'email','is_staff', 'reservation_user']
+        fields = ['username', 'email', 'is_staff', 'reservation_user']
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
